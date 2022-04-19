@@ -11,6 +11,12 @@ public class Main {
 
     CSVController csvController = new CSVController();
 
-    // App.launch(edu.wpi.teamname.App.class, args);
+    try {
+      csvController.populateTables();
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+
+    App.launch(App.class, args);
   }
 }

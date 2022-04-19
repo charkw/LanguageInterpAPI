@@ -11,20 +11,6 @@ public class DBController {
   private Statement statement;
   private Connection connection;
 
-  //  private LocationDao locationDao;
-  //  private MedEquipDao medEquipDao;
-  //  private MedEquipRequestDao medEquipRequestDao;
-  //  private LabServiceRequestDao labServiceRequestDao;
-  //  private EmployeeDao employeeDao;
-  //  private MedRequestDao medRequestDao;
-
-  //  private LocationManager locationManager;
-  //  private MedEquipManager medEquipManager;
-  //  private MedEquipRequestManager medEquipRequestManager;
-  //  private LabServiceRequestManager labServiceRequestManager;
-  //  private EmployeeManager employeeManager;
-  //  private MedRequestManager medRequestManager;
-
   private static DBController dbController = new DBController();
 
   public static DBController getDBController() {
@@ -46,25 +32,20 @@ public class DBController {
 
     // Create Daos (tables are dropped automatically when daos are created)
     // *ORDER MATTERS BECAUSE OF FOREIGN KEYS*
-    //            LanguageRequestDao languageRequestDao = new LanguageRequestDaoImpl(statement);
-    //            LanguageInterpreterDao languageInterpreterDao = new
-    // LanguageInterpreterDaoImpl(statement);
+    LanguageInterpreterDao languageInterpreterDao = new LanguageInterpreterDaoImpl(statement);
     EmployeeDao employeeDao = new EmployeeDaoImpl(statement);
-    //            LanguageDao languageDao = new LanguageDaoImpl(statement);
+    LanguageDao languageDao = new LanguageDaoImpl(statement);
 
     // Assign Daos to Managers
-    //            EmployeeManager.getEmployeeManager().setEmployeeDao(employeeDao);
-    //            LanguageManager.getLanguageManager().setLanguageDao(languageDao);
-    //            LanguageInterpreterManager.getLanguageInterpreterManager()
-    //
-    // LanguageRequestManager.getLanguageRequestManager().setLanguageRequestDao(languageRequestDao);
+    EmployeeManager.getEmployeeManager().setEmployeeDao(employeeDao);
+    LanguageManager.getLanguageManager().setLanguageDao(languageDao);
+    LanguageInterpreterManager.getLanguageInterpreterManager()
+        .setLanguageInterpreterDao(languageInterpreterDao);
 
     // *ORDER MATTERS BECAUSE OF FOREIGN KEYS*
     ((EmployeeDaoImpl) employeeDao).createTable();
-    /*((LanguageDaoImpl) languageDao).createTable();
+    ((LanguageDaoImpl) languageDao).createTable();
     ((LanguageInterpreterDaoImpl) languageInterpreterDao).createTable();
-    ((LanguageRequestDaoImpl) languageRequestDao).createTable();*/
-
   }
 
   public Statement getStatement() {
