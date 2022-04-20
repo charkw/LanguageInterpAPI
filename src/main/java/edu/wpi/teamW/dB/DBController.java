@@ -22,10 +22,12 @@ public class DBController {
       startConnection();
     } catch (SQLException | ClassNotFoundException e) {
       e.printStackTrace();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
-  public void startConnection() throws SQLException, ClassNotFoundException {
+  public void startConnection() throws Exception {
     String connectionStringEmbedded = String.format("jdbc:derby:%s;create=true", this.dbName);
 
     this.connectEmbedded(connectionStringEmbedded);
@@ -46,6 +48,8 @@ public class DBController {
     ((EmployeeDaoImpl) employeeDao).createTable();
     ((LanguageDaoImpl) languageDao).createTable();
     ((LanguageInterpreterDaoImpl) languageInterpreterDao).createTable();
+    CSVController csvController = new CSVController();
+    csvController.populateTables();
   }
 
   public Statement getStatement() {

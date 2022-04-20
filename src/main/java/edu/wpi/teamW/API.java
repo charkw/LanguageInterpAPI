@@ -17,7 +17,11 @@ public class API {
 
   private static ArrayList<LanguageRequest> reqList = new ArrayList<>();
 
-  private static Stage stage = new Stage();;
+  static {
+    DBController.getDBController();
+  }
+
+  private static Stage stage;
 
   public static void addRequest(LanguageRequest lr) {
     reqList.add(lr);
@@ -25,6 +29,25 @@ public class API {
 
   public static ArrayList<LanguageRequest> getAllRequests() {
     return reqList;
+  }
+
+  public static ArrayList<Employee> getAllEmployees() throws SQLException {
+    return EmployeeManager.getEmployeeManager().getAllEmployees();
+  }
+
+  public static void deleteAllEmployees() throws Exception {
+    try {
+      ArrayList<Employee> e = EmployeeManager.getEmployeeManager().getAllEmployees();
+
+      for (Employee employee : e) {
+        LanguageInterpreterManager.getLanguageInterpreterManager()
+            .deleteLanguageInterpsFromEmployeeID(employee.getEmployeeID());
+        EmployeeManager.getEmployeeManager().deleteEmployee(employee.getEmployeeID());
+      }
+
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
 
   public static void changeEmployeeName(Integer employeeID, String newFirstName, String newLastName)
@@ -64,16 +87,6 @@ public class API {
       String originLocationID)
       throws ServiceException {
 
-    DBController.getDBController();
-
-    CSVController csvController = new CSVController();
-
-    try {
-      csvController.populateTables();
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
-
     FXMLLoader root =
         new FXMLLoader(
             Main.class.getResource(
@@ -97,6 +110,7 @@ public class API {
         .add(((URL) Objects.requireNonNull(Main.class.getResource(cssPath))).toExternalForm());
     scene.getStylesheets().add(App.class.getResource(cssPath).toExternalForm());
 
+    stage = new Stage();
     stage.setScene(scene);
     stage.setX((double) xCoord);
     stage.setY((double) yCoord);
@@ -110,5 +124,7 @@ public class API {
 
   public static void closeApp() {
     stage.close();
+    CSVController csvController = new CSVController();
+    csvController.exportAllCSVs();
   }
 }
