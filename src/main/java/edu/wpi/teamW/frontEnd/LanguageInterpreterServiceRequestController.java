@@ -97,7 +97,7 @@ public class LanguageInterpreterServiceRequestController implements Initializabl
         getEmployeeID(employeeSelection.getSelectionModel().getSelectedItem().toString());
     Employee employee = EmployeeManager.getEmployeeManager().getEmployee(empID);
     LanguageRequest languageRequest = new LanguageRequest(language, destinationLocation, employee);
-    API.addRequest(languageRequest);
+    API.reqList.add(languageRequest);
   }
 
   private void clearFields() {
