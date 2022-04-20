@@ -195,4 +195,12 @@ public class API {
   public static void closeApp() {
     stage.close();
   }
+
+  /** Export all CSVS from the database */
+  public static void exportCSVs() {
+    LanguageManager.getLanguageManager().exportLocationsCSV("NewLanguageCSV.csv");
+    LanguageInterpreterManager.getLanguageInterpreterManager()
+        .exportReqCSV("NewLanguageInterpCSV.csv");
+    EmployeeManager.getEmployeeManager().exportEmpCSV("NewEmployeeCSV.csv");
+  }
 }
