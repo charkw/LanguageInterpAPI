@@ -16,7 +16,8 @@ public enum Languages {
   Portuguese("Portuguese"),
   Russian("Russian"),
   Spanish("Spanish"),
-  Swedish("Swedish");
+  Swedish("Swedish"),
+  Other("Other");
 
   public final String string;
 

@@ -1,5 +1,6 @@
 package edu.wpi.teamW.frontEnd;
 
+import edu.wpi.teamW.API;
 import edu.wpi.teamW.dB.*;
 import edu.wpi.teamW.dB.LanguageInterpreterManager;
 import edu.wpi.teamW.dB.enums.Languages;
@@ -13,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
@@ -22,12 +24,20 @@ public class LanguageInterpreterServiceRequestController implements Initializabl
   @FXML ComboBox employeeSelection;
   @FXML ComboBox languageSelection;
   @FXML Label locationSelection;
-
+  @FXML Button exitButton;
   @FXML Label successLabel;
   Alert confirm = new ConfirmAlert();
   Alert emptyFields = new EmptyAlert();
+
   private LanguageInterpreterManager languageInterpreterManager =
       LanguageInterpreterManager.getLanguageInterpreterManager();
+
+  private String destinationLocation = "Default Location";
+
+  public void setLocation(String location) {
+    this.destinationLocation = location;
+    locationSelection.setText(this.destinationLocation);
+  }
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -38,7 +48,6 @@ public class LanguageInterpreterServiceRequestController implements Initializabl
     fadeOut.setAutoReverse(false);
     employeeSelection.setDisable(true);
     // TODO UPDATE LOCATION
-    locationSelection.setText("NODE111");
     languageSelection.setItems(FXCollections.observableArrayList(getLanguageTypeList()));
     languageSelection.setOnAction(
         (event) -> {
@@ -68,6 +77,10 @@ public class LanguageInterpreterServiceRequestController implements Initializabl
     }
   }
 
+  public void exitButton(ActionEvent actionEvent) {
+    API.closeApp();
+  }
+
   public void onUnload() {
     clearFields();
   }
@@ -79,8 +92,12 @@ public class LanguageInterpreterServiceRequestController implements Initializabl
 
   private void pushLanguageRequestToDB() throws SQLException {
     ArrayList<String> srFields = new ArrayList<String>();
-    srFields.add(languageSelection.getSelectionModel().getSelectedItem().toString());
-    srFields.add(getEmployeeID(employeeSelection.getSelectionModel().getSelectedItem().toString()));
+    String language = languageSelection.getSelectionModel().getSelectedItem().toString();
+    Integer empID =
+        getEmployeeID(employeeSelection.getSelectionModel().getSelectedItem().toString());
+    Employee employee = EmployeeManager.getEmployeeManager().getEmployee(empID);
+    LanguageRequest languageRequest = new LanguageRequest(language, destinationLocation, employee);
+    API.addRequest(languageRequest);
   }
 
   private void clearFields() {
@@ -94,7 +111,7 @@ public class LanguageInterpreterServiceRequestController implements Initializabl
     employeeSelection.setDisable(true);
   }
 
-  private String getEmployeeID(String name) throws SQLException {
+  private Integer getEmployeeID(String name) throws SQLException {
     name = name.trim();
     Integer employeeID = null;
     String employeeLastName;
@@ -109,7 +126,7 @@ public class LanguageInterpreterServiceRequestController implements Initializabl
       }
     }
 
-    return String.format("%d", employeeID);
+    return employeeID;
   }
 
   private ArrayList<String> getEmployeeNames(String language) throws SQLException {

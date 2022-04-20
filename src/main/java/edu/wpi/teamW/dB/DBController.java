@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class DBController {
 
-  private String dbName = "myDB";
+  private String dbName = "LanguageInterpAPIDB";
   private Statement statement;
   private Connection connection;
 

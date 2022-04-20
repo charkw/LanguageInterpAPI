@@ -117,6 +117,11 @@ public class LanguageInterpreterDaoImpl implements LanguageInterpreterDao {
     }
   }
 
+  public void deleteLanguageInterpsFromEmployeeID(Integer empID) throws SQLException {
+    statement.executeUpdate(
+        String.format("DELETE FROM LANGUAGEINTERPRETERS WHERE employeeID = %d", empID));
+  }
+
   public ArrayList<Integer> getEligibleEmployees(String language) throws SQLException {
     ArrayList<Integer> ids = new ArrayList<>();
     ResultSet employees =

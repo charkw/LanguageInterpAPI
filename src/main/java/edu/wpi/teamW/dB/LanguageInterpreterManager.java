@@ -40,6 +40,10 @@ public class LanguageInterpreterManager {
     return lid.getAllLanguageInterpreters();
   }
 
+  public void deleteLanguageInterpsFromEmployeeID(Integer empID) throws SQLException {
+    lid.deleteLanguageInterpsFromEmployeeID(empID);
+  }
+
   public void exportReqCSV(String filename) {
     lid.exportLangInterpCSV(filename);
   }

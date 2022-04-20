@@ -118,6 +118,7 @@
                                        </font>
                                     </Label>
                                                 <Button layoutY="152.0" minHeight="30.0" minWidth="60.0" mnemonicParsing="false" onAction="#submitButton" stylesheets="@../CSS/default.css" text="Submit" />
+                                    <Button fx:id="exitButton" layoutX="120.0" layoutY="152.0" minHeight="30.0" minWidth="60.0" mnemonicParsing="false" onAction="#exitButton" stylesheets="@../CSS/default.css" text="Exit" />
                                             </children>
                                         </Pane>
                                         <BorderPane prefHeight="0.0" prefWidth="376.0" />
