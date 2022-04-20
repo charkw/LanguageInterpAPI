@@ -26,7 +26,8 @@ public class CSVController {
 
   public ArrayList<String[]> importCSV(String fileName) throws FileNotFoundException {
 
-    InputStream in = new FileInputStream("CSVs/" + fileName);
+    InputStream in =
+        getClass().getClassLoader().getResourceAsStream("edu/wpi/teamW/CSVs/" + fileName);
     if (in == null) {
       System.out.println("Failed to find file " + fileName);
       throw (new FileNotFoundException());
@@ -128,9 +129,9 @@ public class CSVController {
   }
 
   public void exportAllCSVs() {
-    EmployeeManager.getEmployeeManager().exportEmpCSV("CSVs/" + employeeFileName);
-    LanguageManager.getLanguageManager().exportLocationsCSV("CSVs/" + languageFileName);
+    EmployeeManager.getEmployeeManager().exportEmpCSV(employeeFileName);
+    LanguageManager.getLanguageManager().exportLocationsCSV(languageFileName);
     LanguageInterpreterManager.getLanguageInterpreterManager()
-        .exportReqCSV("CSVs/" + languageInterpreterFilename);
+        .exportReqCSV(languageInterpreterFilename);
   }
 }

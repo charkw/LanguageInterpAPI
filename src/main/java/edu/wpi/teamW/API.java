@@ -194,7 +194,5 @@ public class API {
   /** closes the App, and exports database to CSVs */
   public static void closeApp() {
     stage.close();
-    CSVController csvController = new CSVController();
-    csvController.exportAllCSVs();
   }
 }
